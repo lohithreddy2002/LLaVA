@@ -702,7 +702,7 @@ class LazySupervisedDataset(Dataset):
             try:
                 image = Image.open(os.path.join(image_folder[0], image_file)).convert('RGB')
             except Exception as e:
-                image = Image.open(os.path.join(image_folder[1], 'default.png')).convert('RGB')
+                image = Image.open(os.path.join(image_folder[1], image_file)).convert('RGB')
 
             if self.data_args.image_aspect_ratio == 'pad':
                 def expand2square(pil_img, background_color):
