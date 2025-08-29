@@ -72,7 +72,7 @@ class DataArguments:
                            metadata={"help": "Path to the training data."})
     lazy_preprocess: bool = False
     is_multimodal: bool = False
-    image_folder: Optional[str] = field(default=None)
+    image_folder: List[str] = field(default_factory=list)
     image_aspect_ratio: str = 'square'
 
 
@@ -698,7 +698,11 @@ class LazySupervisedDataset(Dataset):
             image_file = self.list_data_dict[i]['image']
             image_folder = self.data_args.image_folder
             processor = self.data_args.image_processor
-            image = Image.open(os.path.join(image_folder, image_file)).convert('RGB')
+            try:
+                image = Image.open(os.path.join(image_folder[0], image_file)).convert('RGB')
+            except Exception as e:
+                image = Image.open(os.path.join(image_folder[1], 'default.png')).convert('RGB')
+
             if self.data_args.image_aspect_ratio == 'pad':
                 def expand2square(pil_img, background_color):
                     width, height = pil_img.size
