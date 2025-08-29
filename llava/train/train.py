@@ -697,6 +697,7 @@ class LazySupervisedDataset(Dataset):
         if 'image' in sources[0]:
             image_file = self.list_data_dict[i]['image']
             image_folder = self.data_args.image_folder
+            print(image_folder)
             processor = self.data_args.image_processor
             try:
                 image = Image.open(os.path.join(image_folder[0], image_file)).convert('RGB')
